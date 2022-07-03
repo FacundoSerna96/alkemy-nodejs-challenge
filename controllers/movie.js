@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-//const { Movie } = require("../models/Movie");
+const Movie = require("../models/Movie");
 
 
 const movieGet = async (req = request, res = response) => {
@@ -24,9 +24,22 @@ const movieGetOne = async (req = request, res = response) => {
 
 
 const moviePost = async (req = request, res = response) => {
-    res.status(201).json({
-        msg: 'movie create'
-    })
+
+    const {title, image, releaseDate, rating, genreId, state} = req.body;
+
+    const newMovie = new Movie({title, image, releaseDate, rating, genreId, state})
+
+    try {
+        await newMovie.save()
+        res.status(201).json({
+            movie: newMovie
+        })
+    } catch (error) {
+        res.status(400).json({
+            error: error
+        })
+    }
+    
 }
 
 

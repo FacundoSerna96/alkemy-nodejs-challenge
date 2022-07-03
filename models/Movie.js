@@ -3,14 +3,14 @@ const db = require('../db/connection');
 const Genre = require('./Genre');
 
 const Movie = db.define('movie', {
-    name:{
+    title:{
         type: DataTypes.STRING,
     },
     image:{
         type: DataTypes.STRING,
     },
     releaseDate:{
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
     },
     rating:{
         type: DataTypes.INTEGER,

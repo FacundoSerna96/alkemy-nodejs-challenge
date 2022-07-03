@@ -7,30 +7,30 @@ const User = require('../models/user');
 
 const login = async (req = request, res = response) => {
 
-    const {mail, password} = req.body;
+    const {email, password} = req.body;
 
     try {
         const user = await User.findAll({
             where:{
-                mail:mail
+                email:email
             }
         });
 
         if(!user){
             return res.status(400).json({
-                msg: 'Username does not exist'
+                msg: 'User does not exist'
             })
         }
 
         //verificar si el usuario esta activo
-        if(!user.estado){
+        if(user.estado == 0){
             return res.status(400).json({
-                msg: 'Username does not exist'
+                msg: 'User does not exist'
             })
         }
 
         //verificar la contraseña
-        const validPassword = bcryptjs.compareSync(password, user.password);
+        const validPassword = bcryptjs.compareSync(password, user[0].password);
         if(!validPassword){
             return res.status(400).json({
                 msg: 'password error'
@@ -55,23 +55,23 @@ const login = async (req = request, res = response) => {
 }
 
 const register = async (req = request, res = response) => {
-    const {name, mail, password} = req.body;
+    const {name, email, password} = req.body;
 
     const user = await User.findAll({
         where:{
-            mail:mail
+            email:email
         }
     });
 
-    if(user){
-        res.status(400).json({
+    if(user.length > 0){
+        return res.status(400).json({
             msg:'the email is already registered'
         })
     }
 
     const state = true;
     const rol = 'USER';
-    const newUser = new User({name, mail, password, rol, state})
+    const newUser = new User({name, email, password, rol, state})
 
     //encrypting the password
     const salt = bcryptjs.genSaltSync(10);
@@ -79,15 +79,15 @@ const register = async (req = request, res = response) => {
 
     try {
         await newUser.save();
+        return res.status(200).json({
+            user: newUser
+        })
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             error: error
         })
     }
 
-    res.json({
-        user: newUser
-    })
 }
 
 

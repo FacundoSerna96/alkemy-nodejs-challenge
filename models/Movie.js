@@ -3,9 +3,6 @@ const db = require('../db/connection');
 const Genre = require('./Genre');
 
 const Movie = db.define('movie', {
-    id:{
-        type: DataTypes.INTEGER,
-    },
     name:{
         type: DataTypes.STRING,
     },

@@ -43,7 +43,7 @@ class Server{
     }
 
     route(){
-         
+        this.app.use(this.paths.auth, require('../routes/auth'));
     }
 
     listen(){

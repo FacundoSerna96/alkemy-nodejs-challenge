@@ -3,9 +3,6 @@ const db = require('../db/connection');
 const Movie = require('./Movie');
 
 const Character = db.define('character', {
-    id:{
-        type: DataTypes.INTEGER,
-    },
     name:{
         type: DataTypes.STRING,
     },

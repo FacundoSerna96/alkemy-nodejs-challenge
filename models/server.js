@@ -1,5 +1,7 @@
 const express = require('express')
 let cors = require('cors');
+const db = require('../db/connection');
+
 
 
 class Server{
@@ -15,18 +17,20 @@ class Server{
             movie :     '/api/productos',
         }
 
-        //Conectando a la base de datos
-        this.connectionDB();
-
-        //Middlewares
+        this.dbConnection();
         this.middlewares();
-
-        //rutas de mi aplicacion
         this.route();
     }
 
-    async connectionDB(){
-        
+    async dbConnection(){
+        try {
+
+            await db.authenticate();
+            console.log('Database online!');
+            
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
 

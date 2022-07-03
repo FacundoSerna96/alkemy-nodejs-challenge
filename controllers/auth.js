@@ -18,21 +18,21 @@ const login = async (req = request, res = response) => {
             }
         });
 
-        if(!user){
+        if(!user[0]){
             return res.status(400).json({
                 msg: 'User does not exist'
             })
         }
 
         //verificar si el usuario esta activo
-        if(user.estado == 0){
+        if(user[0].dataValues.state == 0){
             return res.status(400).json({
                 msg: 'User does not exist'
             })
         }
 
         //verificar la contraseña
-        const validPassword = bcryptjs.compareSync(password, user[0].password);
+        const validPassword = bcryptjs.compareSync(password, user[0].dataValues.password);
         if(!validPassword){
             return res.status(400).json({
                 msg: 'password error'
@@ -40,7 +40,7 @@ const login = async (req = request, res = response) => {
         }
 
         //generate JWT
-        const token = await generateJWT(user.id);
+        const token = await generateJWT(user[0].dataValues.id);
 
         res.json({
             user,

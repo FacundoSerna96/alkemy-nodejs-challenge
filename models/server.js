@@ -12,9 +12,8 @@ class Server{
 
         this.paths = {
             auth:       '/api/auth',
-            user :      '/api/user',
-            character:  '/api/character',
-            movie :     '/api/movie',
+            character:  '/api/characters',
+            movie :     '/api/movies',
         }
 
         this.dbConnection();
@@ -44,6 +43,7 @@ class Server{
 
     route(){
         this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.movie, require('../routes/movie'));
     }
 
     listen(){

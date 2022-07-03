@@ -4,6 +4,8 @@ const { generateJWT } = require("../helpers/generateJWT");
 
 const User = require('../models/user');
 
+const { sendMail } = require("../helpers/sendgrid");
+
 
 const login = async (req = request, res = response) => {
 
@@ -79,6 +81,7 @@ const register = async (req = request, res = response) => {
 
     try {
         await newUser.save();
+        sendMail(email); //send welcome email
         return res.status(200).json({
             user: newUser
         })

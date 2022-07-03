@@ -99,12 +99,63 @@ const moviePut = async (req = request, res = response) => {
 }
 
 
+//virtual DELETE
 const movieDelete = async (req = request, res = response) => {
-    res.json({
-        msg: 'movie delete'
-    })
+    
+    const {id} = req.params;
+    
+    const updatedMovie = {
+        state: false
+    }
+
+    try {
+        const movie = await Movie.findByPk(id)
+        
+        if(!movie){
+            return res.status(404).json({
+                msg:`movie not found ${id}`
+            })
+        }
+
+        await movie.update(updatedMovie);
+
+        return res.status(200).json({
+            movie: movie
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            error: error
+        })
+    }
 }
 
+//phisical DELETE
+const moviePhisicalDelete = async (req = request, res = response) => {
+    
+    const {id} = req.params;
+    
+    try {
+        const movie = await Movie.findByPk(id)
+        
+        if(!movie){
+            return res.status(404).json({
+                msg:`movie not found ${id}`
+            })
+        }
+
+        await movie.destroy();
+
+        return res.status(200).json({
+            msg: 'Movie Deleted'
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            error: error
+        })
+    }
+}
 
 
 module.exports = {

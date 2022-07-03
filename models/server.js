@@ -14,7 +14,7 @@ class Server{
             auth:       '/api/auth',
             user :      '/api/user',
             character:  '/api/character',
-            movie :     '/api/productos',
+            movie :     '/api/movie',
         }
 
         this.dbConnection();
@@ -25,7 +25,7 @@ class Server{
     async dbConnection(){
         try {
 
-            await db.authenticate();
+            await db.sync();
             console.log('Database online!');
             
         } catch (error) {

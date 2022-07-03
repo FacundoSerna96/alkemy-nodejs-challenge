@@ -1,8 +1,8 @@
 const DataTypes = require('sequelize');
 const db = require('../db/connection');
-const Genre = require('./Genre');
+const Movie = require('./Movie');
 
-const Movie = db.define('movie', {
+const Character = db.define('character', {
     id:{
         type: DataTypes.INTEGER,
     },
@@ -12,17 +12,20 @@ const Movie = db.define('movie', {
     image:{
         type: DataTypes.STRING,
     },
-    releaseDate:{
-        type: DataTypes.DATE,
-    },
-    rating:{
+    age:{
         type: DataTypes.INTEGER,
+    },
+    weight:{
+        type: DataTypes.FLOAT,
+    },
+    history:{
+        type: DataTypes.STRING,
     },
     state:{
         type: DataTypes.BOOLEAN,
     },
 });
 
-Movie.hasOne(Genre,{foreignKey:'id',as:'genreId'})
+Character.hasOne(Movie,{foreignKey:'id',as:'movieId'})
 
-module.exports = Movie;
+module.exports = Character;

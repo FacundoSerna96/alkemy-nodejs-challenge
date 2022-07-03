@@ -7,6 +7,7 @@ const movieGet = async (req = request, res = response) => {
     const {name, genreId, order}  = req.query;
 
 
+
     res.json({
         msg: 'movie get all',
         name: name,
@@ -16,10 +17,26 @@ const movieGet = async (req = request, res = response) => {
 }
 
 
-const movieGetOne = async (req = request, res = response) => {                              
-    res.json({
-        msg: 'movie get one'
-    })
+const movieGetOne = async (req = request, res = response) => {   
+    
+    const {id} = req.params;
+
+    try {
+        const movie = await Movie.findOne({
+            where: {
+                id: id
+            }
+        })
+    
+        res.status(200).json({
+            movie : movie
+        })
+        
+    } catch (error) {
+        res.status(400).json({
+            error : error
+        })
+    }
 }
 
 

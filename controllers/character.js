@@ -5,9 +5,43 @@ const Op = Sequelize.Op;
 
 
 const characterGet = async (req = request, res = response) => {
-   return res.status(200).json({
-        msg : 'character get'
-    })
+    const {name = '%', age = '%', movieId = '%'}  = req.query;
+
+    try {
+        
+        const total = await Character.count();
+
+        const character = await Character.findAll({
+
+            where : {
+                name : {
+                    [Op.like] : `%${name}%`
+                },
+                age: {
+                    [Op.like] : age
+                },
+                movieId : {
+                    [Op.like] : movieId
+                },
+                state : 1
+            },
+           
+            include: {
+                model: Movie
+            },
+
+        }); 
+
+        return res.status(200).json({
+            total: total,
+            character: character
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            error : error
+        })
+    }
 }
 
 

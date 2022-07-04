@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-const {Movie, Genre} = require("../models");
+const {Movie, Genre, Character} = require("../models");
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
@@ -27,7 +27,8 @@ const movieGet = async (req = request, res = response) => {
                 },
                 genreId: {
                     [Op.like] : genreId
-                }
+                },
+                state:1
             },
            
             include: {
@@ -63,9 +64,16 @@ const movieGetOne = async (req = request, res = response) => {
                 id: id
             }
         })
+
+        const characters = await Character.findAll({
+            where:{
+                movieId : id
+            }
+        })
     
         res.status(200).json({
-            movie : movie
+            movie : movie,
+            characters: characters
         })
 
     } catch (error) {

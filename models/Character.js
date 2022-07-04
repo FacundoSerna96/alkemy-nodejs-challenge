@@ -21,6 +21,9 @@ const Character = db.define('character', {
     state:{
         type: DataTypes.BOOLEAN,
     },
+    movieId:{
+        type: DataTypes.INTEGER,
+    }
 });
 
 

@@ -8,7 +8,7 @@ const jwtValidator = async (req = request, res = response, next) =>{
 
     if(!token){
         return res.status(401).json({
-            msg: 'No hay token en la peticion.'
+            msg: 'token not found'
         });
     }
 
@@ -27,14 +27,14 @@ const jwtValidator = async (req = request, res = response, next) =>{
 
         if(!usuarioAutenticado[0]){
             return res.status(401).json({
-                msg:'Token no valido - usuario no existe'
+                msg:'invalid token - user not found'
             }); 
         }
 
         //validar que el usuario no ha sido borrado
         if(!usuarioAutenticado[0].state){
             return res.status(401).json({
-                msg:'Token no valido - usuario con estado eliminado'
+                msg:'invalid token - user not found'
             });
         }
         
@@ -42,7 +42,7 @@ const jwtValidator = async (req = request, res = response, next) =>{
     } catch (error) {
         console.log(error);
         res.status(401).json({
-            msg: 'Token no valido'
+            msg: 'invalid token'
         })
     }
 }

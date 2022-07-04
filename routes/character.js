@@ -14,28 +14,28 @@ const router = Router();
 router.get('/', characterGet);
 
 router.get('/:id', [
-    check('id', 'No es un id valido').isNumeric(),
+    check('id', 'invalid id').isNumeric(),
     fieldValidator
 ],characterGetOne);
 
 router.post('/', [
     jwtValidator,
-    check('name', 'el titulo es obligatorio').not().isEmpty(),
-    check('movieId', 'No es un id valido').isNumeric(),
+    check('name', 'name is required').not().isEmpty(),
+    check('movieId', 'invalid id').isNumeric(),
     fieldValidator
 ],characterPost);
 
 router.put('/:id', [
     jwtValidator,
-    check('id', 'No es un id valido').isNumeric(),
-    check('name', 'el titulo es obligatorio').not().isEmpty(),
-    check('movieId', 'No es un id valido').isNumeric(),
+    check('id', 'invalid id').isNumeric(),
+    check('name', 'name is required').not().isEmpty(),
+    check('movieId', 'invalid movieId').isNumeric(),
     fieldValidator
 ],characterPut);
 
 router.delete('/:id', [
     jwtValidator,
-    check('id', 'No es un id valido').isNumeric(),
+    check('id', 'invalid id').isNumeric(),
     fieldValidator
 ],characterDelete);
 

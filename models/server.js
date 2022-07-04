@@ -2,8 +2,6 @@ const express = require('express')
 let cors = require('cors');
 const db = require('../db/connection');
 
-
-
 class Server{
 
     constructor(){

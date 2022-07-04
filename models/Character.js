@@ -23,6 +23,5 @@ const Character = db.define('character', {
     },
 });
 
-Character.hasOne(Movie,{foreignKey:'id',as:'movieId'})
 
 module.exports = Character;

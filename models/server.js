@@ -44,6 +44,7 @@ class Server{
     route(){
         this.app.use(this.paths.auth, require('../routes/auth'));
         this.app.use(this.paths.movie, require('../routes/movie'));
+        this.app.use(this.paths.character, require('../routes/character'));
     }
 
     listen(){

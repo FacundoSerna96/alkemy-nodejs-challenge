@@ -1,19 +1,55 @@
 const { request, response } = require("express");
-const Movie = require("../models/Movie");
+const {Movie, Genre} = require("../models");
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
+
 
 
 const movieGet = async (req = request, res = response) => {
 
-    const {name, genreId, order}  = req.query;
+    const {name = '%', genreId = '%', order = 'ASC'}  = req.query;
 
+    if(order!='ASC' && order!='DESC'){
+        return res.status(400).json({
+            error: 'order not found'
+        })
+    }
 
+    try {
+        
+        const total = await Movie.count();
 
-    res.json({
-        msg: 'movie get all',
-        name: name,
-        genreId: genreId,
-        order: order
-    })
+        const movies = await Movie.findAll({
+
+            where : {
+                title : {
+                    [Op.like] : `%${name}%`
+                },
+                genreId: {
+                    [Op.like] : genreId
+                }
+            },
+           
+            include: {
+                model: Genre
+            },
+
+            order : [
+                ['title', order]
+            ]
+        }); 
+
+        return res.status(200).json({
+            total: total,
+            movies: movies
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            error : error
+        })
+    }
+
 }
 
 

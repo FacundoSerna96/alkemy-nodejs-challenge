@@ -15,11 +15,13 @@ const Movie = db.define('movie', {
     rating:{
         type: DataTypes.INTEGER,
     },
+    genreId:{
+        type: DataTypes.INTEGER,
+    },
     state:{
         type: DataTypes.BOOLEAN,
     },
 });
 
-Movie.hasOne(Genre,{foreignKey:'id',as:'genreId'})
 
 module.exports = Movie;

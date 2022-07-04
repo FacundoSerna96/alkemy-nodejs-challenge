@@ -40,9 +40,39 @@ const characterPost = async (req = request, res = response) => {
 
 
 const characterPut = async (req = request, res = response) => {
-    return res.status(200).json({
-        msg : 'character put'
-    })
+    const {id} = req.params;
+    const {name, image, age, weight, history, movieId} = req.body;
+
+    const updatedCharacter = {
+        name: name,
+        image: image,
+        age: age,
+        weight: weight,
+        history : history,
+        movieId : movieId
+    }
+
+    try {
+        const character = await Character.findByPk(id)
+        
+        if(!character){
+            return res.status(404).json({
+                msg:`character not found ${id}`
+            })
+        }
+
+        await character.update(updatedCharacter);
+
+        return res.status(200).json({
+            character: character
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            error: error
+        })
+    }
+
 }
 
 
